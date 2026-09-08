@@ -1,84 +1,101 @@
 ## Davirson Novoa Ramírez
 
-**Economista y consultor FP&A que construye la infraestructura de datos él mismo.
-Leo un P&L y construyo el pipeline que lo alimenta.**
+*[Leer en español](README.es.md)*
 
-Tres años dentro de finanzas corporativas —tesorería, facturación y FP&A— para
-operaciones en más de 15 países de América. Maestría en Economía en la
-Pontificia Universidad Javeriana; tesis radicada, grado previsto para
-noviembre de 2026.
+**Economist and FP&A consultant who builds the data infrastructure himself.
+I read a P&L and I build the pipeline that feeds it.**
+
+Three years inside corporate finance — treasury, billing and FP&A — supporting
+operations across 15+ countries in the Americas. MSc Economics at Pontificia
+Universidad Javeriana: thesis filed August 2026, graduation expected November 2026.
+
+Bogotá · GMT-5 · full overlap with US hours · open to remote roles
 
 **[proyecto-davirson-git.vercel.app](https://proyecto-davirson-git.vercel.app)**
 
 ---
 
-### Inclusión financiera y crecimiento regional en Colombia
-[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [ver el atlas](https://proyecto-davirson-git.vercel.app/es/research/fintech-inclusion)
+### Financial inclusion and regional growth in Colombia
+[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [open the atlas](https://proyecto-davirson-git.vercel.app/en/research/fintech-inclusion)
 
-Pregunté si la inclusión financiera predice el crecimiento de los departamentos.
-**No lo predice** — β = 0,0007, p = 0,90, con efectos fijos de entidad y tiempo.
-Sin efectos de tiempo el mismo coeficiente vale +0,024 con p < 0,001: esa
-distancia es lo que valía la tendencia nacional.
+I asked whether financial inclusion predicts departmental growth in Colombia.
 
-El resultado se publica con su especificación, su N, sus clústeres y sus
-pruebas. También se publica el KMO de 0,314 que obligó a descartar PCA.
+**It does not** — β = 0.0007, p = 0.90, with entity and time fixed effects across
+33 departments, 2019 to 2025, N = 228. Wild cluster bootstrap p = 0.89,
+permutation placebo p = 0.68. Without time effects the same coefficient is
++0.024 with p < 0.001, and that distance is exactly what the national trend was
+worth.
 
-Warehouse de 19 fuentes públicas con manifiesto sha256 · índice por dimensiones
-con pesos congelados y publicados · paneles departamental y municipal · atlas de
-los 1.123 municipios · batería contra la correlación espuria (CIPS, CCE,
-placebo por permutación, shift-share, estudio de eventos, Moran, SAR/SDM).
+I published the result with its specification, its N, its clusters and its
+tests. I also published what went wrong: sampling adequacy came to KMO 0.314 for
+access and 0.404 for use, below the 0.5 a factor model needs, so the planned PCA
+was dropped. Forcing it produced negative implicit weights on microcredit — an
+index that says more credit is less inclusion.
+
+Nineteen public sources with a sha256 manifest · every series resolved to
+municipal codes, 100% coverage across the 34 quarterly cuts · an index by
+dimension with frozen, published weights · two annual panels · an atlas of all
+1,123 municipalities · a full battery against spurious correlation (CIPS, CCE,
+permutation placebo, shift-share, event study, Moran, SAR/SDM).
 
 `Python` `dbt` `DuckDB` `linearmodels` `Quarto` `BigQuery`
 
 ---
 
-### Plataforma de datos de mercado
-[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [ver el laboratorio](https://proyecto-davirson-git.vercel.app/es/projects/trading-sim)
+### Market data platform
+[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [open the lab](https://proyecto-davirson-git.vercel.app/en/projects/trading-sim)
 
-APIs públicas → arquitectura medallion en Postgres con dbt → un backtester que
-se niega a hacer trampa → refresh diario en GitHub Actions. 48 activos, sin
-servidor y con presupuesto de cero.
+Public APIs into a PostgreSQL medallion warehouse with dbt, an honest
+backtesting engine on top, and a daily refresh on GitHub Actions that keeps
+itself alive without a server. 48 assets, 58,000+ daily candles, zero budget.
 
-La métrica que más me importa del proyecto no es el retorno: es cuántas
-variantes que le ganaron al buy-and-hold en los datos con los que se
-seleccionaron siguieron ganando en datos que nunca tocaron. Una señal ejecuta
-en la apertura del día siguiente, nunca en el cierre que la produjo, y hay un
-test de regresión que lo comprueba.
+**Of 1,392 strategy variants evaluated, barely one in eight of the in-sample
+winners survived out-of-sample validation.** I published every one that did not.
+The 42 variants combining five signals at once won zero times: more degrees of
+freedom is not more signal, it is more room to fit noise.
+
+A signal computed at day *t*'s close executes at day *t+1*'s open — never at the
+close that produced it, and a regression test asserts that truncating the future
+does not change past signals. Fees and slippage are always on, and buy-and-hold
+pays the same. 89 dbt data-quality tests and 171 Python unit tests run before a
+single figure is published.
 
 `Python` `dbt` `PostgreSQL` `pandera` `GitHub Actions` `Power BI`
 
 ---
 
-### JARVIS — registro diario
-[demo público, sin cuenta](https://jarvis-app-psi-sable.vercel.app/demo) · repositorio privado
+### JARVIS — daily tracking
+[public demo, no account](https://jarvis-app-psi-sable.vercel.app/demo) · private repository
 
-El día completo —hábitos, cuerpo, sueño, alimentación, gasto— en menos de
-noventa segundos y con una mano, devuelto leído y no en crudo.
+A full day — habits, body, sleep, food, spending — logged in under ninety
+seconds with one hand, and handed back read rather than raw.
 
-La mitad de la gente abandona una app de seguimiento en el primer mes, así que
-las decisiones de diseño apuntan a modos concretos de fallar: un hueco no es un
-fallo, un hábito dominado se gradúa en vez de contarse como abandono, ningún
-dato se interpola y ninguna barra de progreso apunta a un peso objetivo.
+Half the people who start a tracking app abandon it in the first month, so the
+design targets specific failure modes: a gap is not a failure, a mastered habit
+graduates instead of counting as churn, nothing is interpolated, and no progress
+bar points at a target weight. A personal-finance data model plus health
+tracking on Postgres with RLS: 35 tables, 22 views, ~370 tests and an RLS smoke
+test in CI.
 
 `Next.js` `TypeScript` `Supabase` `RLS` `PWA`
 
 ---
 
-### Cómo trabajo
+### How I work
 
-- **Publico lo que no me salió.** El resultado nulo, el KMO por debajo del
-  umbral, la fuga de datos que encontré en mi propia app. Un portafolio que
-  solo enseña victorias no dice nada.
-- **Toda cifra traza a una prueba.** Si un número aparece en un documento,
-  sale de un test, de una fila del libro de verificación o de un test de dbt.
-- **Las decisiones se escriben antes que el código.** Dieciséis ADR en el
-  repositorio de investigación, cada uno con el supuesto que lo mata si falla.
+- **I publish what did not work.** The null result, the KMO below the threshold,
+  the data leak I found in my own app. The engineering log records 28 defects
+  found and fixed, numbered one by one. A portfolio that only shows wins says
+  nothing.
+- **Every figure traces to a test.** If a number appears in a document, it comes
+  from a test, a row of the verification ledger, or a dbt test.
+- **Decisions are written before the code.** Sixteen decision records in the
+  research repository, each with the assumption that kills it if it fails.
 
-### Qué busco
+### What I am looking for
 
-Roles remotos de Finance Data Analyst, Analytics Engineer y FP&A con
-automatización — donde el criterio financiero y la ingeniería de datos se
-paguen como una sola capacidad y no como dos mitades. También consultoría.
-Respondo en español e inglés.
+Remote Finance Data Analyst, Analytics Engineer and FP&A automation roles —
+where financial judgement and data engineering are paid as one capability, not
+two halves. Consulting too. I answer in English and Spanish.
 
 [LinkedIn](https://linkedin.com/in/davirson-novoa-ramirez-2721641b5) · davinsonnovoaramirez@gmail.com
