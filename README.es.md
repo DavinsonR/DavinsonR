@@ -16,6 +16,63 @@ Bogotá · GMT-5 · solapamiento completo con horario de EE. UU. · abierto a ro
 
 ---
 
+### Riesgo de crédito con gobierno de modelos
+[`credit-risk-mlops`](https://github.com/DavinsonR/credit-risk-mlops)
+
+Un sistema de decisión crediticia sobre datos públicos reales de EE. UU. —1,96
+millones de préstamos SBA 7(a) y 62,4 millones de solicitudes HMDA—. El modelo no
+es el punto. El punto es que sobrevive una auditoría, y que la auditoría la corrí
+primero contra mí mismo.
+
+**Mi primer número honesto fue uno que borré.** El chequeo de señal devolvió AUC
+0,9461, que no es un modelo de crédito: es una fuga. `TermInMonths` se sobrescribe
+cuando el préstamo se liquida, así que el campo cargaba el resultado. Quitarlo
+baja la ablación a 0,6621. Producción queda en **0,7005**, +0,0311 sobre un
+scorecard WoE interpretable, con error de calibración 0,0107.
+
+**Diez gates de promoción, y uno de ellos bloquea mi propio modelo.** El modelo de
+acceso tiene una razón de impacto dispar de **0,7639** contra un umbral de 0,80,
+así que no se promueve — y no bajé el umbral. Cada umbral tiene su derivación
+escrita al lado, y dos de los gates existen porque los documentos de gobierno
+mentían: el model card listaba 7 gates de 8, omitiendo justamente el único que el
+modelo no cumple, mientras el reporte de validación imprimía PASA para ese mismo
+gate en una sección y "promoción bloqueada" en otra.
+
+**Rechazar el 10% más riesgoso habría evitado $276,3M** en charge-offs, 2,15x lo
+que logra rechazar al azar, y $942,1M de la pérdida realizada del período los
+absorbió el contribuyente vía la garantía. También renuncia a **$1.990M de volumen
+sano** —7,2x la pérdida evitada— y los dos números viajan en el mismo payload. Un
+titular que muestra solo el numerador no es un titular.
+
+**Un charge-off tarda una mediana de 51 meses en aparecer**, así que monitorear
+desempeño en cosechas jóvenes es aritmética y no medición, y el proyecto se niega
+a fingirlo. Lo que sí monitorea encontró algo: el SBA cambió el esquema de
+categorías de `business_age` entre FY2018 y FY2021, y hoy el **84% de sus valores
+cae en categorías que el modelo nunca vio**. El serving las manda a "desconocido",
+así que el modelo no se degrada: pierde una variable del top tres entera y sigue
+respondiendo con el mismo aplomo.
+
+**En lo causal publiqué una no-identificación, no un efecto.** El porcentaje de
+garantía es la única palanca que la SBA controla de verdad, y está determinada
+administrativamente: R² 0,9145 contra celdas de método de procesamiento × tamaño
+del préstamo, así que no queda solapamiento que explotar. En el umbral estatutario
+de $150.000, el 83,1% de la ventana de ±$5k está exactamente en $150.000 —la
+densidad está destruida, y con ella la regresión discontinua—. Condicionar por
+tamaño quita el 38% del gradiente crudo y deja un residual cuyo signo es el que
+predice la selección adversa. Un estimador aplicado donde sus supuestos no se
+cumplen produce un número, no una estimación.
+
+Validación out-of-time cruzando el shock COVID · en un régimen tipo 2007 el mismo
+modelo cae a AUC 0,5456 y subestima el riesgo ocho veces, que es un entregable y
+no una salvedad · 13 registros de decisión de arquitectura · `make reproduce`
+asserta que las métricas publicadas son idénticas tras reentrenar · CI estuvo rojo
+ocho commits seguidos antes de que lo notara, y el arreglo fue un script que
+reproduce CI en local antes de empujar.
+
+`Python` `LightGBM` `PyTorch` `DuckDB` `PySpark` `MLflow` `ONNX` `FastAPI` `Power BI`
+
+---
+
 ### Inclusión financiera y crecimiento regional en Colombia
 [`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [ver el atlas](https://proyecto-davirson-git.vercel.app/es/research/fintech-inclusion)
 
@@ -87,12 +144,25 @@ datos de finanzas personales más seguimiento de salud sobre Postgres con RLS:
 
 - **Publico lo que no funcionó.** El resultado nulo, el KMO por debajo del
   umbral, la fuga de datos que encontré en mi propia app. La bitácora de
-  ingeniería registra 28 defectos encontrados y corregidos, numerados uno a uno.
-  Un portafolio que solo enseña victorias no dice nada.
+  ingeniería registra 28 defectos encontrados y corregidos, numerados uno a uno, y
+  el repositorio de riesgo de crédito lleva el suyo propio — incluidos dos números
+  publicados que tuve que retractar porque no replicaron en otra máquina, y una
+  afirmación que repetí cuatro veces antes de medirla y encontrarla falsa. Un
+  portafolio que solo enseña victorias no dice nada.
 - **Toda cifra traza a una prueba.** Si un número aparece en un documento, sale
-  de un test, de una fila del libro de verificación o de un test de dbt.
+  de un test, de una fila del libro de verificación o de un test de dbt. En el
+  repositorio de riesgo de crédito el gate tampoco le cree al artefacto: recomputa
+  las métricas publicadas desde las predicciones guardadas antes de permitir que
+  algo se promueva.
 - **Las decisiones se escriben antes que el código.** Dieciséis ADR en el
-  repositorio de investigación, cada uno con el supuesto que lo mata si falla.
+  repositorio de investigación y trece en el de riesgo de crédito, cada uno con el
+  supuesto que lo mata si falla.
+- **Un control que no puede fallar no es un control.** Tres de los defectos que
+  encontré en mi propio tooling reportaban éxito sin hacer nada: un verificador de
+  cumplimiento que no detectaba nada, un hook que aceptaba justo lo que existía
+  para rechazar, y una tubería que imprimía "aprobado" después de que el
+  entrenamiento reventara. Cada uno tiene hoy un test que falla en el entorno
+  donde antes pasaba en silencio.
 
 ### Qué busco
 

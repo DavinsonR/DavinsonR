@@ -15,6 +15,62 @@ Bogotá · GMT-5 · full overlap with US hours · open to remote roles
 
 ---
 
+### Credit risk with model governance
+[`credit-risk-mlops`](https://github.com/DavinsonR/credit-risk-mlops)
+
+A credit decisioning system on real US public data — 1.96M SBA 7(a) loans and
+62.4M HMDA applications. The model is not the point. The point is that it
+survives an audit, and that I ran the audit against myself first.
+
+**My first honest number was a deleted one.** The signal check returned AUC
+0.9461, which is not a credit model, it is a leak: `TermInMonths` is overwritten
+when a loan is liquidated, so the field carried the outcome. Removing it drops
+the ablation to 0.6621. Production sits at **0.7005**, +0.0311 over an
+interpretable WoE scorecard, with calibration error 0.0107.
+
+**Ten promotion gates, and one of them blocks my own model.** The access model
+scores a disparate impact ratio of **0.7639** against a 0.80 threshold, so it is
+not promoted — and I did not move the threshold. Every threshold has its
+derivation written next to it, and two of the gates exist because the governance
+documents lied: the model card listed 7 gates of 8, omitting the only one the
+model fails, while the validation report printed PASS for that same gate in one
+section and "promotion blocked" in another.
+
+**Declining the riskiest 10% would have avoided $276.3M** in charge-offs, 2.15x
+what declining at random achieves, and $942.1M of the period's realized loss was
+absorbed by the taxpayer through the guarantee. It also forgoes **$1.99B in good
+lending volume** — 7.2x the loss avoided — and both numbers ship in the same
+payload. A headline that shows only the numerator is not a headline.
+
+**A charge-off takes a median of 51 months to appear**, so performance monitoring
+on young cohorts is arithmetic, not measurement, and the project refuses to fake
+it. What it monitors instead found something: the SBA changed the `business_age`
+category scheme between FY2018 and FY2021, and today **84% of its values fall
+into categories the model never saw**. Serving maps them to "unknown", so the
+model does not degrade — it loses a top-three variable entirely and keeps
+answering with the same confidence.
+
+**On the causal side I published a non-identification, not an effect.** The
+guarantee percentage is the one lever the SBA actually controls, and it is
+administratively determined: R² 0.9145 against processing-method × loan-size
+cells, so there is no overlap left to exploit. At the $150,000 statutory
+threshold, 83.1% of the ±$5k window sits at exactly $150,000 — the density is
+destroyed, and with it the regression discontinuity. Conditioning on size removes
+38% of the raw gradient and leaves a residual whose sign is what adverse
+selection predicts. An estimator applied where its assumptions fail produces a
+number, not an estimate.
+
+Out-of-time validation across the COVID shock · under a 2007-style regime the
+same model falls to AUC 0.5456 and underestimates risk eightfold, which is a
+deliverable and not a caveat · 13 architecture decision records · `make
+reproduce` asserts the published metrics are identical after a retrain · CI was
+red for eight consecutive commits before I caught it, and the fix was a script
+that reproduces CI locally before pushing.
+
+`Python` `LightGBM` `PyTorch` `DuckDB` `PySpark` `MLflow` `ONNX` `FastAPI` `Power BI`
+
+---
+
 ### Financial inclusion and regional growth in Colombia
 [`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [open the atlas](https://proyecto-davirson-git.vercel.app/en/research/fintech-inclusion)
 
@@ -85,12 +141,24 @@ test in CI.
 
 - **I publish what did not work.** The null result, the KMO below the threshold,
   the data leak I found in my own app. The engineering log records 28 defects
-  found and fixed, numbered one by one. A portfolio that only shows wins says
+  found and fixed, numbered one by one, and the credit-risk repository keeps its
+  own ledger — including two published numbers I had to retract because they did
+  not replicate on a second machine, and one claim I repeated four times before
+  measuring it and finding it false. A portfolio that only shows wins says
   nothing.
 - **Every figure traces to a test.** If a number appears in a document, it comes
-  from a test, a row of the verification ledger, or a dbt test.
+  from a test, a row of the verification ledger, or a dbt test. In the credit-risk
+  repository the gate does not trust the artifact either: it recomputes the
+  published metrics from the saved predictions before letting anything be
+  promoted.
 - **Decisions are written before the code.** Sixteen decision records in the
-  research repository, each with the assumption that kills it if it fails.
+  research repository and thirteen in the credit-risk one, each with the
+  assumption that kills it if it fails.
+- **A control that cannot fail is not a control.** Three of the defects I found in
+  my own tooling reported success while doing nothing: a compliance check that
+  matched nothing, a hook that accepted what it was built to reject, and a
+  pipeline that printed "approved" after the training step had crashed. Each one
+  now has a test that fails in the environment where it silently passed.
 
 ### What I am looking for
 
