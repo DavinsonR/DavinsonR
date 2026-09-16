@@ -12,7 +12,7 @@ Universidad Javeriana: thesis filed August 2026, graduation expected November 20
 
 Bogotá · GMT-5 · full overlap with US hours · open to remote roles
 
-**[proyecto-davirson-git.vercel.app](https://proyecto-davirson-git.vercel.app)**
+**[davirson.com](https://davirson.com)**
 
 ---
 
@@ -73,7 +73,7 @@ that reproduces CI locally before pushing.
 ---
 
 ### Financial inclusion and regional growth in Colombia
-[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [open the atlas](https://proyecto-davirson-git.vercel.app/en/research/fintech-inclusion)
+[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [open the atlas](https://davirson.com/en/research/fintech-inclusion)
 
 I asked whether financial inclusion predicts departmental growth in Colombia.
 
@@ -117,7 +117,7 @@ test in CI.
 ---
 
 ### Market data platform
-[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [open the lab](https://proyecto-davirson-git.vercel.app/en/projects/trading-sim)
+[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [open the lab](https://davirson.com/en/projects/trading-sim)
 
 Public APIs into a PostgreSQL medallion warehouse with dbt, an honest
 backtesting engine on top, and a daily refresh on GitHub Actions that keeps

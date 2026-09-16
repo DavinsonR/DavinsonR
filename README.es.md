@@ -13,7 +13,7 @@ noviembre de 2026.
 
 Bogotá · GMT-5 · solapamiento completo con horario de EE. UU. · abierto a roles remotos
 
-**[proyecto-davirson-git.vercel.app](https://proyecto-davirson-git.vercel.app)**
+**[davirson.com](https://davirson.com)**
 
 ---
 
@@ -75,7 +75,7 @@ reproduce CI en local antes de empujar.
 ---
 
 ### Inclusión financiera y crecimiento regional en Colombia
-[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [ver el atlas](https://proyecto-davirson-git.vercel.app/es/research/fintech-inclusion)
+[`financial-inclusion-colombia`](https://github.com/DavinsonR/financial-inclusion-colombia) · [ver el atlas](https://davirson.com/es/research/fintech-inclusion)
 
 Pregunté si la inclusión financiera predice el crecimiento de los departamentos
 de Colombia.
@@ -120,7 +120,7 @@ datos de finanzas personales más seguimiento de salud sobre Postgres con RLS:
 ---
 
 ### Plataforma de datos de mercado
-[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [ver el laboratorio](https://proyecto-davirson-git.vercel.app/es/projects/trading-sim)
+[`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [ver el laboratorio](https://davirson.com/es/projects/trading-sim)
 
 APIs públicas hacia un warehouse PostgreSQL con arquitectura medallion en dbt, un
 motor de backtesting honesto encima, y un refresh diario en GitHub Actions que se
