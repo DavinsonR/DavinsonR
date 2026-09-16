@@ -2,8 +2,9 @@
 
 *[Read in English](README.md)*
 
-**Economista y consultor FP&A que construye la infraestructura de datos él mismo.
-Leo un P&L y construyo el pipeline que lo alimenta.**
+**Economista que construye machine learning capaz de sobrevivir una auditoría.
+Leo un P&L, construyo el pipeline que lo alimenta, y escribo el control que bloquea
+mi propio modelo cuando no cumple.**
 
 Tres años dentro de finanzas corporativas —tesorería, facturación y FP&A— para
 operaciones en más de 15 países de América. Maestría en Economía en la Pontificia
@@ -101,6 +102,23 @@ por permutación, shift-share, estudio de eventos, Moran, SAR/SDM).
 
 ---
 
+### JARVIS — registro diario
+[demo público, sin cuenta](https://jarvis-app-psi-sable.vercel.app/demo) · repositorio privado
+
+El día completo —hábitos, cuerpo, sueño, alimentación, gasto— registrado en menos
+de noventa segundos y con una mano, devuelto leído y no en crudo.
+
+La mitad de la gente que empieza una app de seguimiento la abandona en el primer
+mes, así que el diseño apunta a modos concretos de fallar: un hueco no es un
+fallo, un hábito dominado se gradúa en vez de contarse como abandono, nada se
+interpola y ninguna barra de progreso apunta a un peso objetivo. Un modelo de
+datos de finanzas personales más seguimiento de salud sobre Postgres con RLS:
+35 tablas, 22 vistas, unas 370 pruebas y un smoke test de RLS en CI.
+
+`Next.js` `TypeScript` `Supabase` `RLS` `PWA`
+
+---
+
 ### Plataforma de datos de mercado
 [`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [ver el laboratorio](https://proyecto-davirson-git.vercel.app/es/projects/trading-sim)
 
@@ -120,23 +138,6 @@ y el comprar y mantener paga lo mismo. 89 pruebas de calidad en dbt y 171 prueba
 unitarias en Python corren antes de publicar una sola cifra.
 
 `Python` `dbt` `PostgreSQL` `pandera` `GitHub Actions` `Power BI`
-
----
-
-### JARVIS — registro diario
-[demo público, sin cuenta](https://jarvis-app-psi-sable.vercel.app/demo) · repositorio privado
-
-El día completo —hábitos, cuerpo, sueño, alimentación, gasto— registrado en menos
-de noventa segundos y con una mano, devuelto leído y no en crudo.
-
-La mitad de la gente que empieza una app de seguimiento la abandona en el primer
-mes, así que el diseño apunta a modos concretos de fallar: un hueco no es un
-fallo, un hábito dominado se gradúa en vez de contarse como abandono, nada se
-interpola y ninguna barra de progreso apunta a un peso objetivo. Un modelo de
-datos de finanzas personales más seguimiento de salud sobre Postgres con RLS:
-35 tablas, 22 vistas, unas 370 pruebas y un smoke test de RLS en CI.
-
-`Next.js` `TypeScript` `Supabase` `RLS` `PWA`
 
 ---
 

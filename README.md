@@ -2,8 +2,9 @@
 
 *[Leer en español](README.es.md)*
 
-**Economist and FP&A consultant who builds the data infrastructure himself.
-I read a P&L and I build the pipeline that feeds it.**
+**Economist who builds machine learning that survives an audit.
+I read a P&L, I build the pipeline that feeds it, and I write the control that
+blocks my own model when it does not comply.**
 
 Three years inside corporate finance — treasury, billing and FP&A — supporting
 operations across 15+ countries in the Americas. MSc Economics at Pontificia
@@ -98,6 +99,23 @@ permutation placebo, shift-share, event study, Moran, SAR/SDM).
 
 ---
 
+### JARVIS — daily tracking
+[public demo, no account](https://jarvis-app-psi-sable.vercel.app/demo) · private repository
+
+A full day — habits, body, sleep, food, spending — logged in under ninety
+seconds with one hand, and handed back read rather than raw.
+
+Half the people who start a tracking app abandon it in the first month, so the
+design targets specific failure modes: a gap is not a failure, a mastered habit
+graduates instead of counting as churn, nothing is interpolated, and no progress
+bar points at a target weight. A personal-finance data model plus health
+tracking on Postgres with RLS: 35 tables, 22 views, ~370 tests and an RLS smoke
+test in CI.
+
+`Next.js` `TypeScript` `Supabase` `RLS` `PWA`
+
+---
+
 ### Market data platform
 [`market-data-medallion`](https://github.com/DavinsonR/market-data-medallion) · [open the lab](https://proyecto-davirson-git.vercel.app/en/projects/trading-sim)
 
@@ -117,23 +135,6 @@ pays the same. 89 dbt data-quality tests and 171 Python unit tests run before a
 single figure is published.
 
 `Python` `dbt` `PostgreSQL` `pandera` `GitHub Actions` `Power BI`
-
----
-
-### JARVIS — daily tracking
-[public demo, no account](https://jarvis-app-psi-sable.vercel.app/demo) · private repository
-
-A full day — habits, body, sleep, food, spending — logged in under ninety
-seconds with one hand, and handed back read rather than raw.
-
-Half the people who start a tracking app abandon it in the first month, so the
-design targets specific failure modes: a gap is not a failure, a mastered habit
-graduates instead of counting as churn, nothing is interpolated, and no progress
-bar points at a target weight. A personal-finance data model plus health
-tracking on Postgres with RLS: 35 tables, 22 views, ~370 tests and an RLS smoke
-test in CI.
-
-`Next.js` `TypeScript` `Supabase` `RLS` `PWA`
 
 ---
 
