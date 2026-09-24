@@ -65,7 +65,7 @@ cumplen produce un número, no una estimación.
 
 Validación out-of-time cruzando el shock COVID · en un régimen tipo 2007 el mismo
 modelo cae a AUC 0,5456 y subestima el riesgo ocho veces, que es un entregable y
-no una salvedad · 13 registros de decisión de arquitectura · `make reproduce`
+no una salvedad · 14 registros de decisión de arquitectura · `make reproduce`
 asserta que las métricas publicadas son idénticas tras reentrenar · CI estuvo rojo
 ocho commits seguidos antes de que lo notara, y el arreglo fue un script que
 reproduce CI en local antes de empujar.
@@ -156,7 +156,7 @@ unitarias en Python corren antes de publicar una sola cifra.
   las métricas publicadas desde las predicciones guardadas antes de permitir que
   algo se promueva.
 - **Las decisiones se escriben antes que el código.** Dieciséis ADR en el
-  repositorio de investigación y trece en el de riesgo de crédito, cada uno con el
+  repositorio de investigación y catorce en el de riesgo de crédito, cada uno con el
   supuesto que lo mata si falla.
 - **Un control que no puede fallar no es un control.** Tres de los defectos que
   encontré en mi propio tooling reportaban éxito sin hacer nada: un verificador de

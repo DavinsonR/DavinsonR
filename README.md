@@ -63,7 +63,7 @@ number, not an estimate.
 
 Out-of-time validation across the COVID shock · under a 2007-style regime the
 same model falls to AUC 0.5456 and underestimates risk eightfold, which is a
-deliverable and not a caveat · 13 architecture decision records · `make
+deliverable and not a caveat · 14 architecture decision records · `make
 reproduce` asserts the published metrics are identical after a retrain · CI was
 red for eight consecutive commits before I caught it, and the fix was a script
 that reproduces CI locally before pushing.
@@ -153,7 +153,7 @@ single figure is published.
   published metrics from the saved predictions before letting anything be
   promoted.
 - **Decisions are written before the code.** Sixteen decision records in the
-  research repository and thirteen in the credit-risk one, each with the
+  research repository and fourteen in the credit-risk one, each with the
   assumption that kills it if it fails.
 - **A control that cannot fail is not a control.** Three of the defects I found in
   my own tooling reported success while doing nothing: a compliance check that
